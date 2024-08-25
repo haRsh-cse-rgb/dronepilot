@@ -1,4 +1,3 @@
-// server.js or index.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -8,7 +7,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb+srv://kumarharshrivastava:undertaker@cluster0.9apki.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://kumarharshrivastava:undertaker@cluster0.9apki.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 app.get('/pilots', async (req, res) => {
   try {
@@ -43,7 +45,7 @@ app.get('/pilots/match', async (req, res) => {
         $geoNear: {
           near: { type: 'Point', coordinates: [parseFloat(lng), parseFloat(lat)] },
           distanceField: 'distance',
-          maxDistance: radius * 6371 * 1000,  
+          maxDistance: radius * 6371 * 1000,
           spherical: true
         }
       },
@@ -58,6 +60,6 @@ app.get('/pilots/match', async (req, res) => {
   }
 });
 
-const port = 5000;
+const port = process.env.PORT || 8000;  
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
